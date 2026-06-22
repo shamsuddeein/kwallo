@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import { Flame, TrendingUp, ThumbsUp, ThumbsDown, Send } from 'lucide-react'
 import { SiteLayout } from '@/components/site-layout'
 import { MOCK_HOT_TAKES, type HotTake, t } from '@/lib/mock-data'
 import { useApp } from '@/lib/lang-context'
@@ -55,21 +54,16 @@ export default function HotTakesPage() {
     <SiteLayout>
       {/*  Cream hero banner  */}
       <div className="max-w-[820px] mx-auto px-6 pt-10 pb-4">
-        <div className="bg-[#FFE8D6] border-2 border-[#0D1B2A] rounded-2xl card-shadow px-8 py-8 flex items-center gap-4">
-          <div className="w-14 h-14 rounded-2xl border-2 border-[#0D1B2A] bg-white flex items-center justify-center shrink-0">
-            <Flame size={28} className="text-[#F5A623]" />
-          </div>
-          <div>
-            <h1
-              className="text-3xl font-extrabold text-[#0D1B2A]"
-              style={{ fontFamily: 'var(--font-display)' }}
-            >
-              {t('hot_takes', lang)}
-            </h1>
-            <p className="text-[#6B7280] text-sm mt-0.5">
-              Drop your hottest football opinions. Nigerian fans only. No fear.
-            </p>
-          </div>
+        <div className="bg-[#FFE8D6] border-2 border-[#0D1B2A] rounded-2xl card-shadow px-8 py-8">
+          <h1
+            className="text-3xl font-extrabold text-[#0D1B2A]"
+            style={{ fontFamily: 'var(--font-display)' }}
+          >
+            {t('hot_takes', lang)}
+          </h1>
+          <p className="text-[#6B7280] text-sm mt-1">
+            Drop your hottest football opinions. Nigerian fans only. No fear.
+          </p>
         </div>
       </div>
 
@@ -114,7 +108,6 @@ export default function HotTakesPage() {
               )}
               style={{ fontFamily: 'var(--font-display)' }}
             >
-              <Send size={13} />
               {submitted ? 'Posted!' : 'Post Take'}
             </button>
           </div>
@@ -181,8 +174,7 @@ export default function HotTakesPage() {
                     </div>
                   </div>
                   {take.trending && (
-                    <span className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#FFF3D0] border border-[#F5A623] text-[#F5A623] text-xs font-bold shrink-0">
-                      <TrendingUp size={11} />
+                    <span className="px-2.5 py-1 rounded-full bg-[#FFF3D0] border border-[#F5A623] text-[#F5A623] text-xs font-bold shrink-0">
                       Trending
                     </span>
                   )}
@@ -213,7 +205,6 @@ export default function HotTakesPage() {
                           : 'bg-white text-[#6B7280] border-[#D4D9D0] hover:border-[#1B5E38]'
                       )}
                     >
-                      <ThumbsUp size={12} />
                       Agree
                       <span>{agreeCount.toLocaleString()}</span>
                     </button>
@@ -226,7 +217,6 @@ export default function HotTakesPage() {
                           : 'bg-white text-[#6B7280] border-[#D4D9D0] hover:border-[#EF4444]'
                       )}
                     >
-                      <ThumbsDown size={12} />
                       Disagree
                       <span>{disagreeCount.toLocaleString()}</span>
                     </button>
@@ -245,7 +235,6 @@ export default function HotTakesPage() {
 
         {displayed.length === 0 && (
           <div className="bg-white border-2 border-[#0D1B2A] rounded-2xl card-shadow p-12 text-center">
-            <Flame size={32} className="text-[#D4D9D0] mx-auto mb-3" />
             <p
               className="font-bold text-[#0D1B2A] mb-1"
               style={{ fontFamily: 'var(--font-display)' }}

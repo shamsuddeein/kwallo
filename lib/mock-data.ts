@@ -29,6 +29,8 @@ export interface Match {
   venue: string
   homeScorers?: string[]
   awayScorers?: string[]
+  /** Man of the match (finished games only). photo is a same-origin URL when a backend provides it. */
+  motm?: { name: string; photo?: string }
 }
 
 export interface Standing {
@@ -193,6 +195,7 @@ export const MOCK_TODAY_MATCHES: Match[] = [
     venue: 'Moshood Abiola Stadium',
     homeScorers: ["Osimhen 12'", "Lookman 34'", "Chukwueze 78'"],
     awayScorers: ["Kudus 45'"],
+    motm: { name: 'Victor Osimhen' },
   },
 ]
 

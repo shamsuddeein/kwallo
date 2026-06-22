@@ -3,18 +3,18 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
-import { Menu, X, Home, Radio, Target, User, Zap, CalendarDays, Trophy, MessageSquare } from 'lucide-react'
+import { Menu, X, Home, Radio, Target, User, Zap } from 'lucide-react'
 import { useApp } from '@/lib/lang-context'
 import { t, MOCK_LIVE_MATCHES } from '@/lib/mock-data'
 import { cn } from '@/lib/utils'
 import { KwalloMark } from '@/components/ui/logo'
 
 const NAV_LINKS = [
-  { href: '/live',        key: 'scores',      icon: Radio          },
-  { href: '/fixtures',    key: 'fixtures',    icon: CalendarDays   },
-  { href: '/npfl',        key: 'npfl',        icon: Trophy         },
-  { href: '/predictions', key: 'predictions', icon: Target         },
-  { href: '/hot-takes',   key: 'hot_takes',   icon: MessageSquare  },
+  { href: '/live',        key: 'scores'      },
+  { href: '/fixtures',    key: 'fixtures'    },
+  { href: '/npfl',        key: 'npfl'        },
+  { href: '/predictions', key: 'predictions' },
+  { href: '/hot-takes',   key: 'hot_takes'   },
 ]
 
 export function Navbar() {
@@ -44,17 +44,15 @@ export function Navbar() {
             {NAV_LINKS.map((link) => {
               const label  = t(link.key, lang)
               const active = pathname.startsWith(link.href)
-              const Icon   = link.icon
               return (
                 <Link
                   key={link.href}
                   href={link.href}
                   className={cn(
-                    'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wide transition-colors',
+                    'px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wide transition-colors',
                     active ? 'bg-white/15 text-white' : 'text-white/70 hover:bg-white/10 hover:text-white'
                   )}
                 >
-                  <Icon size={13} strokeWidth={2.5} />
                   {label}
                 </Link>
               )
@@ -133,18 +131,16 @@ export function Navbar() {
             {NAV_LINKS.map((link) => {
               const label  = t(link.key, lang)
               const active = pathname.startsWith(link.href)
-              const Icon   = link.icon
               return (
                 <Link
                   key={link.href}
                   href={link.href}
                   onClick={() => setOpen(false)}
                   className={cn(
-                    'flex items-center gap-2.5 px-5 py-3.5 text-sm font-bold uppercase tracking-wide border-b-2 border-[#0D1B2A]/10 last:border-0 transition-colors',
+                    'flex items-center px-5 py-3.5 text-sm font-bold uppercase tracking-wide border-b-2 border-[#0D1B2A]/10 last:border-0 transition-colors',
                     active ? 'bg-[#1B5E38] text-white' : 'text-[#0D1B2A]/70 hover:bg-[#0D1B2A]/5'
                   )}
                 >
-                  <Icon size={15} strokeWidth={2.5} />
                   {label}
                 </Link>
               )

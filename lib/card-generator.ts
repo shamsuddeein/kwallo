@@ -60,6 +60,99 @@ function drawCrest(ctx: CanvasRenderingContext2D, color: string, label: string, 
   ctx.fillText(label, cx, cy + sizePx * 0.01)
 }
 
+// The Kwallo brand mark (football badge), drawn at (x, y) top-left at the given size.
+function drawLogoMark(ctx: CanvasRenderingContext2D, x: number, y: number, size: number) {
+  const sc = size / 48
+  ctx.save()
+  ctx.translate(x, y)
+  ctx.scale(sc, sc)
+
+  // Rounded green tile
+  roundRectPath(ctx, 1, 1, 46, 46, 11)
+  ctx.fillStyle = GREEN
+  ctx.fill()
+  ctx.lineWidth = 2
+  ctx.strokeStyle = INK
+  ctx.stroke()
+
+  // White ball
+  ctx.beginPath()
+  ctx.arc(24, 24, 13, 0, Math.PI * 2)
+  ctx.fillStyle = '#FFFFFF'
+  ctx.fill()
+
+  // Centre pentagon
+  const pent = new Path2D('M24 19 L28.76 22.45 L26.94 28.05 L21.06 28.05 L19.24 22.45 Z')
+  ctx.fillStyle = INK
+  ctx.fill(pent)
+
+  // Seams
+  ctx.strokeStyle = INK
+  ctx.lineWidth = 1.7
+  ctx.lineCap = 'round'
+  const seams = [
+    [24, 19, 24, 11.2], [28.76, 22.45, 36.2, 20.1], [26.94, 28.05, 31.5, 34.3],
+    [21.06, 28.05, 16.5, 34.3], [19.24, 22.45, 11.8, 20.1],
+  ]
+  ctx.beginPath()
+  for (const [x1, y1, x2, y2] of seams) { ctx.moveTo(x1, y1); ctx.lineTo(x2, y2) }
+  ctx.stroke()
+
+  // Gold accent dot
+  ctx.beginPath()
+  ctx.arc(40, 40, 3.5, 0, Math.PI * 2)
+  ctx.fillStyle = GOLD
+  ctx.fill()
+  ctx.lineWidth = 2
+  ctx.strokeStyle = INK
+  ctx.stroke()
+
+  ctx.restore()
+}
+
+function initials(name: string): string {
+  return name.split(/\s+/).map((w) => w[0]).slice(0, 2).join('').toUpperCase()
+}
+
+// Load an image for the canvas. Resolves null on failure (or cross-origin without CORS).
+function loadImage(url: string): Promise<HTMLImageElement | null> {
+  return new Promise((resolve) => {
+    const img = new Image()
+    img.crossOrigin = 'anonymous'
+    img.onload = () => resolve(img)
+    img.onerror = () => resolve(null)
+    img.src = url
+  })
+}
+
+// Circular man-of-the-match avatar: the player photo if available, else initials on green.
+function drawMotmAvatar(ctx: CanvasRenderingContext2D, cx: number, cy: number, r: number, name: string, img: HTMLImageElement | null) {
+  ctx.save()
+  ctx.beginPath()
+  ctx.arc(cx, cy, r, 0, Math.PI * 2)
+  ctx.closePath()
+  ctx.clip()
+  if (img) {
+    const s = Math.max((r * 2) / img.width, (r * 2) / img.height)
+    const w = img.width * s, h = img.height * s
+    ctx.drawImage(img, cx - w / 2, cy - h / 2, w, h)
+  } else {
+    ctx.fillStyle = GREEN
+    ctx.fillRect(cx - r, cy - r, r * 2, r * 2)
+    ctx.fillStyle = '#FFFFFF'
+    ctx.font = `700 ${Math.round(r * 0.7)}px "Space Grotesk", sans-serif`
+    ctx.textAlign = 'center'
+    ctx.textBaseline = 'middle'
+    ctx.fillText(initials(name), cx, cy + 2)
+  }
+  ctx.restore()
+  ctx.beginPath()
+  ctx.arc(cx, cy, r, 0, Math.PI * 2)
+  ctx.lineWidth = 4
+  ctx.strokeStyle = INK
+  ctx.stroke()
+}
+
 async function ensureFonts() {
   try {
     const f = (document as Document & { fonts: FontFaceSet }).fonts
@@ -118,8 +211,26 @@ export async function downloadMatchCard(match: Match): Promise<void> {
     drawPill(ctx, formatMatchDate(match.kickoffTime).toUpperCase(), S / 2, 224, GREEN, '#FFFFFF')
   }
 
+  // Man of the match (finished games only)
+  const motm = match.status === 'FT' && match.motm ? match.motm : null
+  const motmImg = motm?.photo ? await loadImage(motm.photo) : null
+  if (motm) {
+    const tctx = ctx as CanvasRenderingContext2D & { letterSpacing: string }
+    ctx.textAlign = 'center'
+    ctx.textBaseline = 'middle'
+    ctx.fillStyle = '#9A6E12'
+    ctx.font = '700 24px "Space Grotesk", sans-serif'
+    tctx.letterSpacing = '4px'
+    ctx.fillText('MAN OF THE MATCH', S / 2, 300)
+    tctx.letterSpacing = '0px'
+    drawMotmAvatar(ctx, S / 2, 392, 70, motm.name, motmImg)
+    ctx.fillStyle = INK
+    ctx.font = '700 40px "Space Grotesk", sans-serif'
+    ctx.fillText(motm.name, S / 2, 512)
+  }
+
   // Crests in the left / right columns, score lives in the centre gap
-  const crestY = 408
+  const crestY = motm ? 648 : 408
   const crestSize = 158
   const homeX = 234
   const awayX = S - 234
@@ -154,13 +265,15 @@ export async function downloadMatchCard(match: Match): Promise<void> {
 
   // Scorers / venue
   ctx.fillStyle = MUTED
-  ctx.font = '500 28px "Inter", sans-serif'
+  ctx.font = '500 25px "Inter", sans-serif'
   if (hasScore) {
     const home = match.homeScorers?.join(', ') || ''
     const away = match.awayScorers?.join(', ') || ''
-    if (home) ctx.fillText(home, homeX, crestY + 200)
-    if (away) ctx.fillText(away, awayX, crestY + 200)
+    if (home) { ctx.textAlign = 'left';  ctx.fillText(home, 76, crestY + 200) }
+    if (away) { ctx.textAlign = 'right'; ctx.fillText(away, S - 76, crestY + 200) }
+    ctx.textAlign = 'center'
   } else if (match.venue) {
+    ctx.textAlign = 'center'
     ctx.fillText(match.venue, S / 2, crestY + 206)
   }
 
@@ -172,14 +285,18 @@ export async function downloadMatchCard(match: Match): Promise<void> {
   ctx.lineTo(S - 110, S - 190)
   ctx.stroke()
 
-  // Wordmark
+  // Logo mark + wordmark
+  const markSize = 52
+  drawLogoMark(ctx, 110, S - 146, markSize)
   ctx.textAlign = 'left'
+  ctx.textBaseline = 'middle'
   ctx.fillStyle = GREEN
-  ctx.font = '700 56px "Space Grotesk", sans-serif'
-  ctx.fillText('Kwallo', 110, S - 120)
+  ctx.font = '700 50px "Space Grotesk", sans-serif'
+  const wordX = 110 + markSize + 16
+  ctx.fillText('Kwallo', wordX, S - 119)
   const kw = ctx.measureText('Kwallo').width
   ctx.fillStyle = GOLD
-  ctx.fillText('.', 110 + kw + 2, S - 120)
+  ctx.fillText('.', wordX + kw + 2, S - 119)
 
   // URL
   ctx.textAlign = 'right'
