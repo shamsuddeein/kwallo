@@ -1,0 +1,142 @@
+@import "tailwindcss";
+
+@source "../components/**/*.tsx";
+@source "../app/**/*.tsx";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-sans:    var(--font-inter),          "Inter",         sans-serif;
+  --font-display: var(--font-space-grotesk),  "Space Grotesk", sans-serif;
+  --font-mono:    var(--font-space-mono),     "Space Mono",    monospace;
+
+  /* Kwallo - Cetoh-style green system */
+  --color-background:        #F7F5F0;
+  --color-foreground:        #0D1B2A;
+  --color-border:            #0D1B2A;
+  --color-ink:               #0D1B2A;  /* text, borders, hard shadows */
+  --color-green:             #1B5E38;  /* primary buttons / dark panels */
+  --color-green-bright:      #2E7D52;  /* logo, links, accents, hovers */
+  --color-cream:             #F7F5F0;  /* page background */
+  --color-card:              #FFFFFF;  /* card surfaces */
+  --color-mint:              #D4F0E0;  /* pastel accent */
+  --color-amber:             #F5A623;  /* accent / highlights */
+  --color-pink:              #FFE8EC;  /* pastel accent card */
+  --color-live:              #DC2626;  /* LIVE badges + pulse dot */
+  --color-muted:             #EEF3EC;
+  --color-muted-foreground:  #5C6B60;
+
+  --radius-sm:  0.5rem;
+  --radius-md:  0.75rem;
+  --radius-lg:  1rem;
+  --radius-xl:  1.25rem;
+  --radius-2xl: 1.5rem;
+  --radius-3xl: 2rem;
+}
+
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+  html {
+    background-color: #F7F5F0;
+    color: #0D1B2A;
+  }
+  body {
+    background-color: #F7F5F0;
+    color: #0D1B2A;
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: var(--font-display);
+  }
+
+  /* v3: flat cards - no drop shadows. Shadow utilities kept as no-ops
+     so existing class usages stay valid while rendering completely flat. */
+  .card-shadow,
+  .card-shadow-sm,
+  .card-shadow-lg,
+  .card-shadow-green {
+    box-shadow: none;
+  }
+
+  /* Plain pill button - subtle press feedback, no shadow */
+  .btn-press {
+    transition: opacity 0.12s ease, transform 0.12s ease;
+  }
+  .btn-press:hover {
+    opacity: 0.9;
+  }
+  .btn-press:active {
+    transform: translateY(1px);
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Data-light mode: white background, no decorative graphics or crests,
+   slightly smaller type, for low-data users (SRS 2.4.3). */
+html.kw-data-light { font-size: 94%; }
+html.kw-data-light,
+html.kw-data-light body { background-color: #FFFFFF !important; }
+html.kw-data-light .kw-decor { display: none !important; }
+html.kw-data-light .kw-crest { display: none !important; }
+
+/* Live dot pulse */
+@keyframes live-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.4; transform: scale(0.7); }
+}
+.live-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #DC2626;
+  animation: live-pulse 1.2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+.live-dot-sm {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #DC2626;
+  animation: live-pulse 1.2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+/* Ticker scroll */
+@keyframes ticker {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.ticker-scroll {
+  animation: ticker 28s linear infinite;
+}
+.ticker-scroll:hover {
+  animation-play-state: paused;
+}
+
+/* Card hover - flat, subtle lift only (no shadow) */
+.card-hover {
+  transition: transform 0.15s ease;
+}
+.card-hover:hover {
+  transform: translateY(-2px);
+}
