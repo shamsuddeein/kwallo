@@ -86,8 +86,8 @@ export default function NPFLPage() {
           >
             NPFL Standings
           </h2>
-          <div className="bg-white border-2 border-[#0D1B2A] rounded-2xl card-shadow overflow-hidden">
-            <div className="grid grid-cols-[2rem_1fr_repeat(5,2.5rem)_4rem] gap-x-2 px-5 py-3 bg-[#1B5E38]">
+          <div className="bg-white border-2 border-[#0D1B2A] rounded-2xl card-shadow overflow-x-auto">
+            <div className="grid grid-cols-[2rem_1fr_repeat(5,2.5rem)_4rem] min-w-[520px] gap-x-2 px-5 py-3 bg-[#1B5E38]">
               {['#', 'Club', 'P', 'W', 'D', 'L', 'GD', 'Pts'].map((h, i) => (
                 <div
                   key={h}
@@ -107,7 +107,7 @@ export default function NPFLPage() {
               <div
                 key={row.team.id}
                 className={cn(
-                  'grid grid-cols-[2rem_1fr_repeat(5,2.5rem)_4rem] gap-x-2 px-5 py-3.5 border-b border-[#D4D9D0] last:border-0 items-center hover:bg-[#F7F5F0] transition-colors',
+                  'grid grid-cols-[2rem_1fr_repeat(5,2.5rem)_4rem] min-w-[520px] gap-x-2 px-5 py-3.5 border-b border-[#D4D9D0] last:border-0 items-center hover:bg-[#F7F5F0] transition-colors',
                   row.position <= 3 && 'border-l-4 border-l-[#1B5E38]'
                 )}
               >

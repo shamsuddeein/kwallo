@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
-import { PlayCircle, Star, Download, Flag, Globe, Radio, Target } from 'lucide-react'
+import { PlayCircle, Star, Download, Flag, Globe } from 'lucide-react'
 import { useApp } from '@/lib/lang-context'
 import { t, MOCK_TODAY_MATCHES, MOCK_HOT_TAKES, MOCK_NPFL_STANDINGS, MOCK_LIVE_MATCHES } from '@/lib/mock-data'
 import { MatchCard } from '@/components/match-card'
@@ -128,9 +128,9 @@ export function TodaysMatches() {
 //  How Kwallo Works 
 
 const HOW_STEPS = [
-  { num: '01', bg: '#D4F0E0', Icon: Radio,    titleKey: 'how_t1', descKey: 'how_1' },
-  { num: '02', bg: '#FFF3D0', Icon: Target,   titleKey: 'how_t2', descKey: 'how_2' },
-  { num: '03', bg: '#FFE8EC', Icon: Download, titleKey: 'how_t3', descKey: 'how_3' },
+  { num: '01', bg: '#D4F0E0', titleKey: 'how_t1', descKey: 'how_1' },
+  { num: '02', bg: '#FFF3D0', titleKey: 'how_t2', descKey: 'how_2' },
+  { num: '03', bg: '#FFE8EC', titleKey: 'how_t3', descKey: 'how_3' },
 ]
 
 export function HowItWorks() {
@@ -141,21 +141,18 @@ export function HowItWorks() {
         {t('how_title', lang)}
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-        {HOW_STEPS.map(({ num, bg, Icon, titleKey, descKey }) => (
+        {HOW_STEPS.map(({ num, bg, titleKey, descKey }) => (
           <div
             key={num}
             className="p-8 flex flex-col gap-5 border-2 border-[#0D1B2A] rounded-2xl"
             style={{ backgroundColor: dataLight ? '#FFFFFF' : bg }}
           >
-            <div className="flex items-center justify-between">
-              <span
-                className="w-11 h-11 rounded-full bg-[#0D1B2A] text-white flex items-center justify-center text-sm"
-                style={{ fontFamily: 'var(--font-mono)', fontWeight: 700 }}
-              >
-                {num}
-              </span>
-              <Icon size={24} strokeWidth={2} className="text-[#0D1B2A]/70" />
-            </div>
+            <span
+              className="w-11 h-11 rounded-full bg-[#0D1B2A] text-white flex items-center justify-center text-sm"
+              style={{ fontFamily: 'var(--font-mono)', fontWeight: 700 }}
+            >
+              {num}
+            </span>
             <h3 className="text-2xl text-[#0D1B2A] leading-tight" style={display(600)}>{t(titleKey, lang)}</h3>
             <p className="text-[#0D1B2A]/70 text-sm leading-relaxed">{t(descKey, lang)}</p>
           </div>
@@ -266,8 +263,7 @@ export function DownloadCTA() {
             {t('cta_sub', lang)}
           </p>
           <div className="flex flex-wrap items-center justify-center gap-3 mb-12">
-            <Link href="/fixtures" className="inline-flex items-center gap-2 px-7 py-3.5 bg-[#1B5E38] text-white font-semibold text-sm rounded-full border-2 border-[#1B5E38] btn-press">
-              <Download size={16} strokeWidth={2.5} />
+            <Link href="/fixtures" className="px-7 py-3.5 bg-[#1B5E38] text-white font-semibold text-sm rounded-full border-2 border-[#1B5E38] btn-press">
               {t('download_a_card', lang)}
             </Link>
             <Link href="/live" className="px-7 py-3.5 bg-white text-[#0D1B2A] font-semibold text-sm rounded-full border-2 border-[#0D1B2A] btn-press">
@@ -322,7 +318,7 @@ export function HotTakesPreview() {
                 </div>
                 <div className="flex justify-between text-xs font-bold uppercase tracking-wider mt-1.5">
                   <span className="text-[#1B5E38]">{agreePercent}% Agree</span>
-                  <span className="text-[#DC2626]">{100 - agreePercent}% No</span>
+                  <span className="text-[#DC2626]">{100 - agreePercent}% Disagree</span>
                 </div>
               </div>
 

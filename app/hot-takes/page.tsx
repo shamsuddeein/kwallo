@@ -88,6 +88,7 @@ export default function HotTakesPage() {
             onChange={(e) => setNewTake(e.target.value.slice(0, 280))}
             placeholder="Arsenal go win the league. I said what I said..."
             rows={4}
+            aria-label="Write your hot take"
             className="w-full text-sm text-[#0D1B2A] placeholder-[#9CA3AF] resize-none outline-none leading-relaxed mb-3 bg-transparent"
           />
           <div className="flex items-center justify-between border-t border-[#D4D9D0] pt-3">

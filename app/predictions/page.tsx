@@ -173,6 +173,7 @@ export default function PredictionsPage() {
                                 max="20"
                                 value={pred.home}
                                 onChange={(e) => updatePred(match.id, 'home', e.target.value)}
+                                aria-label={`${match.homeTeam.name} predicted score`}
                                 className="w-12 h-12 text-center text-xl font-bold border-2 border-[#D4D9D0] rounded-xl focus:border-[#0D1B2A] outline-none"
                                 style={{ fontFamily: 'var(--font-mono)' }}
                                 placeholder="0"
@@ -184,6 +185,7 @@ export default function PredictionsPage() {
                                 max="20"
                                 value={pred.away}
                                 onChange={(e) => updatePred(match.id, 'away', e.target.value)}
+                                aria-label={`${match.awayTeam.name} predicted score`}
                                 className="w-12 h-12 text-center text-xl font-bold border-2 border-[#D4D9D0] rounded-xl focus:border-[#0D1B2A] outline-none"
                                 style={{ fontFamily: 'var(--font-mono)' }}
                                 placeholder="0"

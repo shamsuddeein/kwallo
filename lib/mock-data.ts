@@ -106,6 +106,14 @@ export const TEAMS: Record<string, Team> = {
   ghana: { id: 'ghana', name: 'Ghana', shortName: 'GHA', logo: '', color: '#FCD116' },
 }
 
+// Today at a fixed West Africa Time (WAT = UTC+1), as an ISO string.
+// Fixed hours keep kickoff times realistic and stable between server and client.
+function todayAtWAT(hour: number, minute = 0): string {
+  const d = new Date()
+  d.setUTCHours(hour - 1, minute, 0, 0)
+  return d.toISOString()
+}
+
 // Mock live/today matches
 export const MOCK_LIVE_MATCHES: Match[] = [
   {
@@ -145,7 +153,7 @@ export const MOCK_TODAY_MATCHES: Match[] = [
     competition: COMPETITIONS[3],
     homeTeam: TEAMS.enyimba,
     awayTeam: TEAMS.rangers,
-    kickoffTime: new Date(Date.now() + 2 * 3600000).toISOString(),
+    kickoffTime: todayAtWAT(15, 0),
     status: 'SCHEDULED',
     homeScore: null,
     awayScore: null,
@@ -156,7 +164,7 @@ export const MOCK_TODAY_MATCHES: Match[] = [
     competition: COMPETITIONS[0],
     homeTeam: TEAMS.manCity,
     awayTeam: TEAMS.liverpool,
-    kickoffTime: new Date(Date.now() + 4 * 3600000).toISOString(),
+    kickoffTime: todayAtWAT(17, 30),
     status: 'SCHEDULED',
     homeScore: null,
     awayScore: null,
@@ -167,7 +175,7 @@ export const MOCK_TODAY_MATCHES: Match[] = [
     competition: COMPETITIONS[3],
     homeTeam: TEAMS.kanoillins,
     awayTeam: TEAMS.heartland,
-    kickoffTime: new Date(Date.now() + 5 * 3600000).toISOString(),
+    kickoffTime: todayAtWAT(20, 0),
     status: 'SCHEDULED',
     homeScore: null,
     awayScore: null,

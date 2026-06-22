@@ -65,9 +65,9 @@ export default function StandingsPage() {
         </div>
 
         {/*  Table  */}
-        <div className="bg-white border-2 border-[#0D1B2A] rounded-2xl card-shadow overflow-hidden">
+        <div className="bg-white border-2 border-[#0D1B2A] rounded-2xl card-shadow overflow-x-auto">
           {/* Header row */}
-          <div className="grid grid-cols-[2rem_1fr_repeat(5,2.5rem)_3rem_5rem] gap-x-2 px-5 py-3 bg-[#1B5E38]">
+          <div className="grid grid-cols-[2rem_1fr_repeat(5,2.5rem)_3rem_5rem] min-w-[600px] gap-x-2 px-5 py-3 bg-[#1B5E38]">
             <div className="text-center text-xs font-bold text-white/50 uppercase tracking-wider">#</div>
             <div className="text-xs font-bold text-white/50 uppercase tracking-wider">Club</div>
             <div className="text-center text-xs font-bold text-white/50 uppercase tracking-wider">P</div>
@@ -76,7 +76,7 @@ export default function StandingsPage() {
             <div className="text-center text-xs font-bold text-white/50 uppercase tracking-wider">L</div>
             <div className="text-center text-xs font-bold text-white/50 uppercase tracking-wider">GD</div>
             <div className="text-center text-xs font-bold text-white uppercase tracking-wider">Pts</div>
-            <div className="hidden sm:block text-center text-xs font-bold text-white/50 uppercase tracking-wider">Form</div>
+            <div className="text-center text-xs font-bold text-white/50 uppercase tracking-wider">Form</div>
           </div>
 
           {standings.map((row) => {
@@ -86,7 +86,7 @@ export default function StandingsPage() {
               <div
                 key={row.team.id}
                 className={cn(
-                  'grid grid-cols-[2rem_1fr_repeat(5,2.5rem)_3rem_5rem] gap-x-2 px-5 py-3.5 border-b border-[#D4D9D0] last:border-0 items-center hover:bg-[#F7F5F0] transition-colors',
+                  'grid grid-cols-[2rem_1fr_repeat(5,2.5rem)_3rem_5rem] min-w-[600px] gap-x-2 px-5 py-3.5 border-b border-[#D4D9D0] last:border-0 items-center hover:bg-[#F7F5F0] transition-colors',
                   isTop4       && 'border-l-4 border-l-[#1B5E38]',
                   isRelegation && 'border-l-4 border-l-[#EF4444]'
                 )}
@@ -126,7 +126,7 @@ export default function StandingsPage() {
                 >
                   {row.points}
                 </div>
-                <div className="hidden sm:flex items-center justify-center gap-0.5">
+                <div className="flex items-center justify-center gap-0.5">
                   {row.form.map((r, j) => (
                     <FormBadge key={j} result={r} />
                   ))}

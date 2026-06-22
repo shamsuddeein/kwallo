@@ -406,6 +406,7 @@ export default function MatchDetailPage({ params }: { params: Promise<{ id: stri
                       type="number" min="0" max="20"
                       value={predHome}
                       onChange={(e) => setPredHome(e.target.value)}
+                      aria-label={`${match.homeTeam.name} predicted score`}
                       className="w-16 h-14 text-center text-2xl font-bold border-2 border-[#0D1B2A] rounded-2xl focus:outline-none focus:border-[#1B5E38] bg-[#F7F5F0]"
                       style={{ fontFamily: 'var(--font-mono)' }}
                       placeholder="0"
@@ -425,6 +426,7 @@ export default function MatchDetailPage({ params }: { params: Promise<{ id: stri
                       type="number" min="0" max="20"
                       value={predAway}
                       onChange={(e) => setPredAway(e.target.value)}
+                      aria-label={`${match.awayTeam.name} predicted score`}
                       className="w-16 h-14 text-center text-2xl font-bold border-2 border-[#0D1B2A] rounded-2xl focus:outline-none focus:border-[#1B5E38] bg-[#F7F5F0]"
                       style={{ fontFamily: 'var(--font-mono)' }}
                       placeholder="0"
@@ -449,6 +451,7 @@ export default function MatchDetailPage({ params }: { params: Promise<{ id: stri
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
                 placeholder="Share your thoughts on this match... (login required)"
+                aria-label="Write a comment"
                 className="w-full text-sm text-[#0D1B2A] placeholder-[#9CA3AF] resize-none outline-none h-20 mb-3 bg-transparent"
               />
               <div className="flex justify-between items-center border-t border-[#D4D9D0] pt-3">
